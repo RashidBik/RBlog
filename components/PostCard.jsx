@@ -1,4 +1,5 @@
 import moment from 'moment/moment'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -6,12 +7,12 @@ import React from 'react'
 const PostCard = ({post}) => {
   console.log(post);
   return (
-    <div className='bg-white shadow-lg rounded-lg lg:p-8 pb-12 mb-8'>
-      <div className='relative overflow-hidden shadow-md  mb-6'>
+    <div className='bg-white shadow-lg rounded-lg p-0 lg:p-8 pb-12 mb-8'>
+      <div className='relative overflow-hidden shadow-md pb-80 mb-6'>
         <img 
-          src={'post.featuredImage.url'}
+          src={post.featuredImage.url}
           alt={post.title}
-          className="object-top absolute h-60 w-full object-cover shadow-lg rounded-t-lg lg:rounded-lg"
+          className="object-top absolute h-80 w-full object-cover shadow-lg rounded-t-lg lg:rounded-lg"
         />
       </div>
       <h1 className='transation duration-700 text-center mb-8 cursor-pointer hover:text-pink-800 text-3xl font-semibold '>
@@ -21,14 +22,13 @@ const PostCard = ({post}) => {
       </h1>
       <div className='block lg:flex text-center items-center justify-center mb-8 w-full '>
         <div className='flex items-center justify-center w-full lg:mb-0 mb-4 lg:w-auto mr-8'>
-          <img src=''
-               alt=''
+          <Image 
                width='30px'
                height='30px'
-               className='align-middle rounded-full'
+               className='align-middle rounded-full bg-gray-300'
                />
           <p className='inline align-middle text-gray-700 ml-2 text-lg'>
-            {/* {post.author.name} */}
+            Admin
           </p>
         </div>
         <div className='font-medium text-gray-700 '>

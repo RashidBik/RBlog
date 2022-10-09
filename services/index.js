@@ -4,30 +4,34 @@ const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
 
 export const getPost = async() => {
     const query = gql`
-        query Assets {
-            assets {
-              createdAt
+    query MyQuery {
+      postsConnection {
+        edges {
+          node {
+            author {
+              bio
+              name
               id
-              publishedAt
-              fileName
-              url
-              updatedAt
-            }
-            postsConnection {
-              edges {
-                node {
-                  createdAt
-                  slug
-                  title
-                  excerpt
-                  category {
-                    name
-                    slug
-                  }
-                }
+              photo {
+                url
               }
             }
-          }`
+            createdAt
+            slug
+            title
+            excerpt
+            featuredImage{
+              url
+            }
+            categories {
+              name
+              slug
+            }
+          }
+        }
+      }
+    }    
+    `
     const results = await request(graphqlAPI,query);
     return results.postsConnection.edges
 }
@@ -36,32 +40,30 @@ export const getPostDetails = async(slug) => {
   const query = gql`
     query GetPostDetails($slug: String!){
       post(where: {slug: $slug}){
-        query Assets {
-          assets {
-            createdAt
-            id
-            publishedAt
-            fileName
-            url
-            updatedAt
-          }
-          postsConnection {
-            edges {
-              node {
-                createdAt
-                slug
-                title
-                excerpt
-                category {
-                  name
-                  slug
-                }
+         author {
+              bio
+              id
+              name
+              photo {
+                url
               }
+            }
+            createdAt
+            slug
+            title
+            excerpt
+            featuredImage {
+              url
+            }
+            categories {
+              name
+              slug
+            }
+            content {
+             raw
             }
           }
         }
-      }
-    }
       `
   const results = await request(graphqlAPI,query, {slug});
   return results.post
@@ -112,17 +114,17 @@ export const getCategories = async()=> {
     categories {
       name
       slug
-    }
+    } 
   }
   `
-  const result = request(graphqlAPI, query);
+  const result = await request(graphqlAPI, query);
   return result.categories;
 }
 
-export const submitComment = async (obj) =>{
-  const result = await fetch('/api/commetns',{
-    method: 'POST',
-    body: JSON.stringify(obj),
-  });
-  return result.json;
-}
+// export const submitComment = async (obj) =>{
+//   const result = await fetch('/api/commetns',{
+//     method: 'POST',
+//     body: JSON.stringify(obj),
+//   });
+//   return result.json;
+// }
